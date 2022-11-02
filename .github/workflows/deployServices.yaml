@@ -47,7 +47,7 @@ jobs:
   
   Deploy-Staging:
     name: Deploy to Staging
-    needs: [Deploy-Azure-Services]
+    needs: [Build-and-Test]
     runs-on: ubuntu-latest
     steps:    
      # Log into Azure
