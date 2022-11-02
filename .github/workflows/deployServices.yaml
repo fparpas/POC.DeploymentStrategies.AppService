@@ -16,8 +16,10 @@ jobs:
       - run: dotnet publish BlazorAppTest -c Release -o myapp
       
       - name: Azure PowerShell Action
-        uses: Azure/powershell@v1          
-          inlineScript:|
+        uses: Azure/powershell@v1
+        with:
+          azPSVersion: "latest"
+          inlineScript: |
              Compress-Archive -Path myapp -DestinationPath myapp.zip
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
