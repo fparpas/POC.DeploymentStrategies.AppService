@@ -20,7 +20,7 @@ jobs:
         with:
           azPSVersion: "latest"
           inlineScript: |
-             Compress-Archive -Path .\myapp\* myapp -DestinationPath myapp.zip
+             Compress-Archive -Path .\myapp\* -DestinationPath myapp.zip
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
