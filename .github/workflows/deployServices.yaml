@@ -6,7 +6,8 @@ jobs:
     steps:
     - name: Check if QA Exists
       id: check-if-qa-exists
-      run: echo "AZ_VERSION="$(az --version)"" >> $GITHUB_OUTPUT
+      run: 
+            echo "AZ_VERSION=1234" >> $GITHUB_OUTPUT
       
   Deploy-Azure-Services:
     if: github.repository == '111'
