@@ -1,11 +1,23 @@
 on: workflow_dispatch
 name: Deploy Azure Services
 jobs:
-  Deploy-Azure-Services:
-    if: github.repository == '111'
+  Build-and-Test:
     runs-on: ubuntu-latest
+    name: Dotnet Build and Test
     steps:
-
+      - uses: actions/checkout@v3
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: |
+            6.0
+      - run: dotnet build BlazorAppTest
+      - run: dotnet test TestProject
+    
+  Deploy-Azure-Services:
+    runs-on: ubuntu-latest
+    needs: [Build-and-Test]
+    steps:
       # Checkout code
     - uses: actions/checkout@main
 
@@ -25,5 +37,29 @@ jobs:
         template: ./IaC/main.bicep
         parameters: resourceGroupName=${{ secrets.AZURE_RESOURCEGROUP_NAME }} resourceGroupLocation=${{ secrets.AZURE_RESOURCEGROUP_LOCATION }} appServiceName=${{ secrets.AZURE_APPSERVICE_NAME }}
         failOnStdErr: false
-
+  
+  Deploy-Staging:
+    needs: [Deploy-Azure-Services]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Azure WebApp
+      uses: Azure/webapps-deploy@v2
+      with:
+        # Name of the Azure Web App
+        app-name: ${{ secrets.AZURE_APPSERVICE_NAME }}
+        # Enter an existing Slot other than the Production slot
+        slot-name: Staging
+        # Applies to Web App only: Path to package or folder. *.zip, *.war, *.jar or a folder to deploy        
+  
+  Swap-Production:
+    needs: [Deploy-Azure-Services]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Swap to production slot
+      run: |
+        az webapp deployment slot swap --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name ${{ env.AZURE_APPSERVICE_NAME }} --slot staging --target-slot production
+        echo "Swap finished. WebApp accessible at https://$(az webapp show --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name ${{ env.AZURE_APPSERVICE_NAME }} --query hostNames[0] -o tsv)"
+  
+        
+  
 
