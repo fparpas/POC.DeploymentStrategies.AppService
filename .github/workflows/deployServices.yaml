@@ -14,11 +14,12 @@ jobs:
       - run: dotnet build BlazorAppTest
       - run: dotnet test TestProject
       - run: dotnet publish BlazorAppTest -c Release -o '${{ env.DOTNET_ROOT }}/myapp' 
+      - run: Compress-Archive -Path '${{ env.DOTNET_ROOT }}/myapp' -DestinationPath myapp.zip
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: myapp.zip
   Deploy-Azure-Services:
     if: false
     name: Deploy Azure Resources
@@ -69,7 +70,7 @@ jobs:
         # Enter an existing Slot other than the Production slot
         slot-name: Staging
         # Applies to Web App only: Path to package or folder. *.zip, *.war, *.jar or a folder to deploy        
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp.zip
   Swap-Production:
     if: false
     name: Swap to Production
