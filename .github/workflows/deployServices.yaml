@@ -9,7 +9,7 @@ jobs:
     - uses: actions/checkout@main
 
       # Log into Azure
-    - uses: azure/actions/login@v1
+    - uses: Azure/login@v1.4.6
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
