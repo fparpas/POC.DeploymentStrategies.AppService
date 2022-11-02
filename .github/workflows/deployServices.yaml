@@ -72,7 +72,7 @@ jobs:
         # Enter an existing Slot other than the Production slot
         slot-name: Staging
         # Applies to Web App only: Path to package or folder. *.zip, *.war, *.jar or a folder to deploy        
-        package: myapp.zip
+        package: artifact/myapp.zip
   Swap-Production:
     if: false
     name: Swap to Production
