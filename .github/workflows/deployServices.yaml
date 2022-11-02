@@ -69,8 +69,8 @@ jobs:
 
     - name: Swap to Production
       run: |
-        az webapp deployment slot swap --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --name ${{ secrets.AZURE_APPSERVICE_NAME }} --slot staging --target-slot production
-        echo "Swap finished. WebApp accessible at https://$(az webapp show --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --name ${{ secrets.AZURE_APPSERVICE_NAME }} --query hostNames[0] -o tsv)"
+        az webapp deployment slot swap --resource-group ${{ secrets.AZURE_RESOURCEGROUP_NAME }} --name ${{ secrets.AZURE_APPSERVICE_NAME }} --slot Staging --target-slot production
+        echo "Swap finished. WebApp accessible at https://$(az webapp show --resource-group ${{ secrets.AZURE_RESOURCEGROUP_NAME }} --name ${{ secrets.AZURE_APPSERVICE_NAME }} --query hostNames[0] -o tsv)"
   
         
   
