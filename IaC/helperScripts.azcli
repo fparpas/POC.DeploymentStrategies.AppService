@@ -1,0 +1,5 @@
+$resourceGroupName = "Poc.DeploymentStrategies.AppService3"
+$resourceGroupLocation = "eastus"
+$appServiceName = "pocdepstrat3"
+
+az deployment sub create --name $resourceGroupName --location $resourceGroupLocation --template-file  main.bicep --parameters resourceGroupName=$resourceGroupName resourceGroupLocation=$resourceGroupLocation appServiceName=$appServiceName
