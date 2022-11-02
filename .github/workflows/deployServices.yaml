@@ -11,6 +11,7 @@ jobs:
       
   Deploy-Azure-Services:
     if: github.repository == '111'
+    needs: Check-Environment-Exists
     runs-on: ubuntu-latest
     steps:
 
