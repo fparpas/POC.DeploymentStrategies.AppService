@@ -59,7 +59,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: .net-app
-        path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp
+        path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         
     - name: Azure WebApp
       uses: Azure/webapps-deploy@v2
@@ -69,7 +69,7 @@ jobs:
         # Enter an existing Slot other than the Production slot
         slot-name: Staging
         # Applies to Web App only: Path to package or folder. *.zip, *.war, *.jar or a folder to deploy        
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
   Swap-Production:
     if: false
     name: Swap to Production
