@@ -14,7 +14,10 @@ jobs:
       - run: dotnet build BlazorAppTest
       - run: dotnet test TestProject
       - run: dotnet publish BlazorAppTest -c Release -o '${{ env.DOTNET_ROOT }}/myapp' 
-      - run: Compress-Archive -Path '${{ env.DOTNET_ROOT }}/myapp' -DestinationPath myapp.zip
+      - name: Azure PowerShell Action
+        uses: Azure/powershell@v1          
+          inlineScript:|
+             Compress-Archive -Path '${{ env.DOTNET_ROOT }}/myapp' -DestinationPath myapp.zip
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
