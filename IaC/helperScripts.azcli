@@ -1,5 +1,14 @@
-$resourceGroupName = "Poc.DeploymentStrategies.AppService3"
+az ad sp create-for-rbac --sdk-auth
+
+$resourceGroupName = "Poc.DeploymentStrategies.AppService"
 $resourceGroupLocation = "eastus"
-$appServiceName = "pocdepstrat3"
+$appServiceName = "pocdeplstratPlan"
 
 az deployment sub create --name $resourceGroupName --location $resourceGroupLocation --template-file  main.bicep --parameters resourceGroupName=$resourceGroupName resourceGroupLocation=$resourceGroupLocation appServiceName=$appServiceName
+
+
+az appservice plan  show --name $appServiceName --resource-group $resourceGroupName     
+
+az appservice plan list -g $resourceGroupName --query "[?name == 'pocdeplstratPlan']" -o json
+
+az appservice plan list --help
