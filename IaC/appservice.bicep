@@ -19,16 +19,22 @@ resource webApplication 'Microsoft.Web/sites@2018-11-01' = {
   location: location
   properties: {
     serverFarmId: appServicePlan.id
+    siteConfig:{
+      linuxFxVersion: 'DOTNETCORE|6.0'
+    }
   }
-  kind: 'app,linux'
+  kind: 'linux'
 }
 
 resource Staging 'Microsoft.Web/sites/slots@2022-03-01' = {
   name: '${webApplication.name}/Staging'
-  kind: 'app,linux'
+  kind: 'linux'
   location: location
   properties: {
     serverFarmId: appServicePlan.id
+    siteConfig:{
+      linuxFxVersion: 'DOTNETCORE|6.0'
+    }
     }
 
 }
