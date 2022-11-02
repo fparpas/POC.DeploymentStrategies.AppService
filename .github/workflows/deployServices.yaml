@@ -43,7 +43,12 @@ jobs:
     name: Deploy Staging Environment
     needs: [Deploy-Azure-Services]
     runs-on: ubuntu-latest
-    steps:
+    steps:    
+     # Log into Azure
+    - uses: Azure/login@v1.4.6
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
     - name: Azure WebApp
       uses: Azure/webapps-deploy@v2
       with:
@@ -57,6 +62,11 @@ jobs:
     needs: [Deploy-Staging]
     runs-on: ubuntu-latest
     steps:
+     # Log into Azure
+    - uses: Azure/login@v1.4.6
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
     - name: Swap to production slot
       run: |
         az webapp deployment slot swap --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name ${{ env.AZURE_APPSERVICE_NAME }} --slot staging --target-slot production
