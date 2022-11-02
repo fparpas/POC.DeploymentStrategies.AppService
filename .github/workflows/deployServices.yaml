@@ -1,18 +1,8 @@
 on: workflow_dispatch
 name: Deploy Azure Services
 jobs:
-  Check-Environment-Exists:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Check if QA Exists
-      id: check-if-qa-exists
-      run: echo "AZ_VERSION=1234" >> $GITHUB_OUTPUT
-    - name: Validate if QA Exists
-      id: validate-if-qa-exists
-      run: echo "Output is ${{ steps.check-if-qa-exists.outputs.AZ_VERSION }}"
   Deploy-Azure-Services:
     if: github.repository == '111'
-    needs: Check-Environment-Exists
     runs-on: ubuntu-latest
     steps:
 
